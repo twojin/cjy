@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+int a[200][200]; 
+int max(int a,int b);
+void AC();
+int main(int argc, char *argv[]) {
+	int n;
+	scanf("%d",&n);
+	while(n--){
+		AC();
+	}
+}
+void AC()
+{
+	int n;
+	scanf("%d",&n);
+	int i,j;
+	for(i=1;i<=n;i++){
+		for(j=1;j<=i;j++){
+			scanf("%d",&a[i][j]);
+		}
+	}
+	for(i=n;i>=2;i--){
+		for(j=1;j<i;j++){
+			a[i-1][j]=a[i-1][j]+max(a[i][j],a[i][j+1]);
+		}
+	}
+	printf("%d\n",a[1][1]);
+}
+int max(int a,int b)
+{
+	if(a>=b){
+		return a;
+	}
+	else{
+		return b;
+	}
+}
