@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+int  F[100][100];//动态规划表
+/*以下函数实现填写动态规划表*/
+int  dp(int  wei[],int  value[],int  n,int  w)
+
+{
+    int i,j,values;
+    for(i=0;i<100;i++){
+        for(j=0;j<100;j++){
+            F[i][j]=-1;
+        }
+    }
+    for(i=0;i<100;i++){
+        F[0][i]=0;
+        F[i][0]=0;
+    }
+    if(F[n][w]<0){
+        if(w<wei[n]){
+            values=dp(wei,value,n-1,w);
+        }
+        else{
+            //values=max(dp(wei,value,n-1,w),value[n]+dp(wei,value,n-1,wei[n]));
+            if(dp(wei,value,n-1,w)>=value[n]+dp(wei,value,n-1,w-wei[n])){
+                values=dp(wei,value,n-1,w);
+            }
+            else{
+                values=value[n]+dp(wei,value,n-1,w-wei[n]);
+            }
+        }
+        F[n][w]=values;
+    }
+    return F[n][w];
+}
+
+int  main()
+{
+        int  n,w,i;
+        //输入物品的个数n，背包的容量w；
+        scanf("%d%d",&n,&w);
+        int  wei[n+1],value[n+1];
+        //依次输入第i个物品的重量wei[i]及价值value[i]；
+        for(i=1;  i<=n;  i++)
+        {
+                scanf("%d%d",&wei[i],&value[i]);
+        }
+        printf("%d",dp(wei,value,n,w));//打印背包问题的最优总价值；
+        return  0;
+}
